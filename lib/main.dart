@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
-// ignore: unused_import
-import 'package:audioplayers/audioplayers.dart';
+
 
 void main() {
   runApp(MyApp());
@@ -12,9 +11,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Maths Quiz',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      
       home: StartPage(),
     );
   }
@@ -28,7 +25,7 @@ class StartPage extends StatelessWidget {
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/images/home page.jpeg'),
-            fit: BoxFit.cover,
+            fit: BoxFit.fill,
           ),
         ),
         child: Center(
@@ -59,7 +56,6 @@ class StartPage extends StatelessWidget {
 
 class ArithmeticDrillPage extends StatefulWidget {
   const ArithmeticDrillPage({Key? key}) : super(key: key);
-
   @override
   _ArithmeticDrillPageState createState() => _ArithmeticDrillPageState();
 }
@@ -97,7 +93,6 @@ class _ArithmeticDrillPageState extends State<ArithmeticDrillPage> {
       _problems.add('$num1 $operator $num2');
     }
   }
-
   Future<void> _checkAnswer(String answer) async {
     if (answer.isEmpty) {
       _showMessageDialog('Please enter a valid answer.');
@@ -264,11 +259,11 @@ class _ArithmeticDrillPageState extends State<ArithmeticDrillPage> {
   }
 
   
-  void _showSkipDialog() {
+  void _showSkipDialog() {  
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
+        return AlertDialog( //shows title,content and action, 
           title: const Text('Skip Question', style: TextStyle(fontSize: 24)),
           content: const Text('No mark will be awarded for skipping this question. Do you want to proceed?'),
           actions: <Widget>[
@@ -293,13 +288,14 @@ class _ArithmeticDrillPageState extends State<ArithmeticDrillPage> {
 
   @override
   Widget build(BuildContext context) {
-    // ignore: deprecated_member_use
+    //ignore: deprecated_member_use
     return WillPopScope(
       onWillPop: () async {
         _confirmExit();
         return false; 
       },
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           title: const Text('Maths Quiz', style: TextStyle(color: Colors.black)),
           backgroundColor: const Color.fromARGB(255, 160, 109, 90),
@@ -315,33 +311,34 @@ class _ArithmeticDrillPageState extends State<ArithmeticDrillPage> {
             padding: const EdgeInsets.all(16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 Padding(
-                  padding: const EdgeInsets.only(top: 0.0),
+                  padding: const EdgeInsets.only(top: 121.0),
                   child: SizedBox(
-                    width: 200, 
+                    width: 250, 
                     child: LinearProgressIndicator(
+                      minHeight: 10.0,
                       value: (_currentProblemIndex + 1) / 10,
                     ),
                   ),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 15),
                 Text(
                   'Problem ${_currentProblemIndex + 1}:',
                   style: const TextStyle(fontSize: 24),
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 1),
                 Text(
                   _problems[_currentProblemIndex],
                   style: const TextStyle(fontSize: 24),
                 ),
-                const SizedBox(height: 20.0),
+                const SizedBox(height: 10.0),
                 SizedBox(
                   width: 200, 
                   child: TextField(
                     controller: _controller,
-                    keyboardType: TextInputType.text,
+                    keyboardType: TextInputType.number,
                     maxLines: 1, 
                     decoration: const InputDecoration(
                       hintText: 'Enter your answer',
@@ -371,7 +368,7 @@ class _ArithmeticDrillPageState extends State<ArithmeticDrillPage> {
                     ),
                   ],
                 ),
-                if (_score >= 8) 
+                if (_score >= 8) // if the score is greater or = to 8 then display congrads on score dialogue
                   const Padding(
                     padding: EdgeInsets.symmetric(vertical: 20),
                   ),
